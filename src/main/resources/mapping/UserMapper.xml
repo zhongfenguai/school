@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfrz.mapper.UserMapper">
+    <insert id="insert2" parameterType="com.dfrz.bean.User">
+    insert into user ( uname, upass
+    )
+    values ( #{uname,jdbcType=VARCHAR}, #{upass,jdbcType=VARCHAR})
+  </insert>
+    <select id="testselect" resultType="com.dfrz.bean.User">
+        select id,uname from USER
+    </select>
+</mapper>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>pdf文件预览</title>
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            var url = getPdfPreviewUrl(); //获取pdf预览地址
+            $("#pdfContainer").attr("src", "viewer.html?file="+url);
+        });
+        function getPdfPreviewUrl() {
+            var url=getQueryVariable("file");
+           return url;
+        }
+        function getQueryVariable(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                var pair = vars[i].split("=");
+                if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+    </script>
+</head>
+<body>
+<div id="showPdf">
+    <iframe id="pdfContainer" src="" height="500" width="100%" frameborder="0"></iframe>
+</div>
+</body>
+</html>

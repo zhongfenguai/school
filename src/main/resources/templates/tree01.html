@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="utf-8">
+    <title>树组件</title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+</head>
+<body>
+
+<h3>权限管理</h3>
+<form method="post" class="layui-form">
+    <div class="layui-form-item"><label class="layui-form-label">请选择角色</label>
+        <div class="layui-input-block"><select lay-filter="test" id="roleid" name="roleid" lay-verify="required">
+            <option value="1">管理员</option>
+            <option value="2">超级管理员</option>
+            <option value="3">废物管理员</option>
+        </select></div>
+    </div>
+</form>
+<div id="test1"></div>
+
+<script>
+    layui.use(['form', 'tree'], function () {
+        var tree = layui.tree;
+        var form = layui.form;
+        //初始化加载
+        refreshTree();
+
+        // 封装起来后 ，可以复用
+        function refreshTree() {
+            var roleid = $("#roleid").val();
+            if (roleid == "" || roleid == undefined || roleid == null) {
+                roleid = 3; // 默认管理员
+            }//ajax 获取数据
+            var treedata;
+            $.ajax({
+                url: "./ajaxTree",
+                //先执行， 不异步
+                async: false,
+                data: {"roleid": roleid},
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                    treedata = data;
+                }
+            });
+            //渲染
+            var inst1 = tree.render({
+                elem: '#test1'  //绑定元素
+                //勾选框
+                , showCheckbox: true
+                //渲染表格
+                , data: treedata.children
+                , onclick: function (obj) {
+                    console.log(obj.data); //得到当前点击的节点数据
+                    console.log(obj.checked); //得到当前节点的展开状态：open、 close、normal
+                    console.log(obj.elem); //得到当前节点元素
+                }
+            });
+        }
+
+        //监听select
+        form.on('select(test)', function (data) {
+            console.log(11111)
+            console.log(data.elem); //得到 select 原始 DOM 对象
+            console.log(data.value); //得到被选中的值
+            console.log(data.othis); //得到美化后的 DOM 对象
+            //监听 调用 更新
+            refreshTree();
+        });
+    });
+
+
+</script>
+</body>
+</html>

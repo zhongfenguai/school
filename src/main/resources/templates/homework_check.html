@@ -1,0 +1,490 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" th:href="@{/css/font.css}">
+    <link rel="stylesheet" th:href="@{/css/xadmin.css}">
+    <script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script th:src="@{/lib/layui/layui.js}" charset="utf-8"></script>
+    <script type="text/javascript" th:src="@{/js/xadmin.js}"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+        .main {
+            margin: 5px;
+            background: #F0F0F0;
+        }
+
+        .main-top {
+            background: white;
+            font-size: 22px;
+            font-family: "宋体";
+            font-weight: bold;
+            padding: 10px;
+        }
+
+        .main-left {
+            float: left;
+            height: 690px;
+            width: 23%;
+            background: white;
+            margin: 10px 2px 5px 10px;
+
+        }
+
+        .main-left-top {
+            overflow-y: scroll;
+            height: 590px;
+        }
+
+        .main-left-top ul {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main-left-top li {
+            list-style-type: none;
+            height: 50px;
+            /* 				background: #90EE90; */
+            margin: 12px;
+        }
+
+        .main-left-top li:hover {
+            background: #C4E1FF;
+            color: #2894FF;
+            cursor: pointer;
+        }
+
+        .main-left-top li .main-left-list-text {
+            float: left;
+        }
+
+        .main-left-top li .main-left-list-text span {
+            line-height: 50px;
+            margin-left: 10px;
+
+        }
+
+        .main-left-top li .main-left-list-a {
+            float: right;
+        }
+
+        .main-left-top li .main-left-list-a a {
+            text-decoration: none;
+            line-height: 50px;
+            margin-right: 10px;
+            color: #2894FF;
+        }
+
+        .main-left-top li::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+
+        .main-left-bottom button {
+            width: 180px;
+            height: 50px;
+            outline: none;
+            border: 1px solid skyblue;
+            font-size: 17px;
+            color: skyblue;
+            font-weight: bold;
+            background-color: white;
+            margin-left: 20%;
+            margin-top: 25px;
+            cursor: pointer;
+        }
+
+        .main-center {
+            float: left;
+            width: 53%;
+            height: 690px;
+            background: white;
+            margin: 10px 0;
+            overflow-y: scroll;
+        }
+
+        .main-center-title {
+            display: inline;
+            font-size: 20px;
+            margin: 30px 20px 100px 20px;
+        }
+
+        .main-center-mark {
+            display: inline;
+            font-size: 30px;
+            margin: 30px 20px 0px 20px;
+            color: red;
+        }
+
+        .main-center-date {
+            margin: 2px 20px 35px 20px;
+            font-size: 15px;
+            color: lightgray;
+        }
+
+        .main-center-content-demo:nth-child(1) {
+            margin-left: 20px;
+        }
+
+        .main-center-content-demo:nth-child(1+5n) {
+            margin-left: 20px;
+        }
+
+        .main-center-content-demo {
+            width: 130px;
+            height: 130px;
+            background: #90EE90;
+            margin: 10px 10px;
+            float: left;
+        }
+
+        .main-right {
+            float: left;
+            height: 690px;
+            width: 22.5%;
+            background: white;
+            margin: 10px 1px;
+            overflow-y: scroll;
+        }
+
+        .main-right-score {
+            margin: 20px;
+            font-size: 20px;
+        }
+
+        .main-right-score-choose button:nth-child(1) {
+            margin-left: 10px;
+        }
+
+        .score {
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 5px;
+            margin: 4px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+            background: #F1F1F1;
+            cursor: pointer;
+        }
+
+        .main-right-score-choose button:hover {
+            background: #2894FF;
+            color: white;
+        }
+
+        .main-right-area {
+            border: 1px solid lightgray;
+            height: 400px;
+            margin: 20px 15px;
+        }
+
+        .main-right-area textarea {
+            border: none;
+            resize: none;
+            outline: none;
+            font-size: 18px;
+            padding: 5px;
+        }
+
+        .main-right-area p {
+            text-align: right;
+            margin: 0 10px;
+            color: #BEBEBE;
+        }
+
+        .main-right-area button {
+            background: #F1F1F1;
+            border: none;
+            outline: none;
+            padding: 6px 12px;
+            margin: 5px 5px;
+            cursor: pointer;
+            border-radius: 10px;
+            font-size: 14px;
+        }
+
+        .main-right-area button:hover {
+            background: #87CEEB;
+            color: white;
+        }
+
+        .main-right-area .main-right-submit button {
+            margin-top: 10px;
+            width: 275px;
+            height: 50px;
+            border-radius: 5px;
+            font-size: 20px;
+            color: white;
+            background: #2894FF;
+        }
+
+        .main-right-chooseWork {
+            margin-top: 10px;
+        }
+
+        .main-right-chooseWork .prev {
+            color: #9D9D9D;
+            background: white;
+            font-size: 16px;
+        }
+
+        .main-right-chooseWork .prev:hover {
+            background: white;
+            color: #2894FF;
+        }
+
+        .main-right-chooseWork .next {
+            color: #9D9D9D;
+            background: white;
+            font-size: 16px;
+            margin-left: 90px;
+        }
+
+        .main-right-chooseWork .next:hover {
+            background: white;
+            color: #2894FF;
+        }
+
+        .main::after {
+            display: block;
+            content: "";
+            clear: both;
+        }
+
+        .main-left-submit {
+            font-size: 20px;
+            margin: 25px 20px 15px 20px;
+        }
+
+        .main-left-check {
+            margin: 15px 20px 30px 20px;
+        }
+
+        .main-right-footer {
+            margin: 25px;
+            color: #BEBEBE;
+        }
+
+        .active {
+            background: #C4E1FF;
+        }
+
+        .activeScore {
+            background: #2894FF;
+            color: white;
+        }
+
+        .activeFont {
+            color: #2894FF;
+        }
+    </style>
+    <script th:inline="javascript">
+        var imgsArray = [[${submits}]]
+        //公共变量
+        var selected_hwsubid = "";
+        $(function () {
+            //初始化代码,选中第一条数据
+            init();
+
+            function selectSubmit(obj, isAuto) {
+                $(obj).addClass("active");
+                $(obj).children(".main-left-list-text").addClass("activeFont");
+                $(obj).siblings().removeClass("active");
+                $(obj).siblings().children(".main-left-list-text").removeClass("activeFont");
+                $(".main-center-content").children().remove();
+                //获取选中的hwsubmitid    $(this).index() 是选中的索引位置
+                var selected_obj;
+                if (isAuto == "1") {
+                    selected_hwsubid = imgsArray[0].id;
+                    selected_obj = imgsArray[0];
+                } else {
+                    selected_hwsubid = imgsArray[$(obj).index()].id;
+                    selected_obj = imgsArray[$(obj).index()];
+                }
+                //提交信息展示
+                var submitman = $(obj).find("span").eq(0).html();
+                $(".main-center-title").html(submitman);
+                $(".main-center-date").html(selected_obj.createtime);
+                //model全部列表信息
+                var srcval = "";
+                if (isAuto == "1") {
+                    srcval = imgsArray[0];
+                } else {
+                    srcval = imgsArray[parseInt($(obj).val())];
+                }
+                //附件
+                var attaches = srcval.attaches
+                //每次都要清空
+                $(".main-center-content").html("");
+                for (var i = 0; i < attaches.length; i++) {
+                    var div = $("<div class = 'main-center-content-demo'></div>")
+                    var img = ""
+                    if (attaches[i].type == "1") {
+
+                        img = $("<img onclick='previewImg(this)' src = ../upload/homework/submit/images/" + attaches[i].url + " width='100%' height='100%'>");
+                    } else if (attaches[i].type == "2") {
+
+                        img = $("<img src = '../images/doc.jpg/' width='100%' height='100%'>");
+                    }
+                    div.append(img);
+                    $(".main-center-content").append(div);
+                }
+            }
+
+            function init() {
+                var obj = $(".main-left-top li").eq(0);
+                selectSubmit(obj, "1")
+            }
+
+            //封装调用
+            $(".main-left-top li").click(function () {
+                selectSubmit($(this));
+            });
+            $(".main-right-score-choose button").click(function () {
+                // alert($(this).text())
+                $(this).addClass("activeScore");
+                $(this).siblings().removeClass("activeScore");
+            });
+            $(".main-right-area button").click(function () {
+                $(this).siblings("textarea").val($(this).text());
+                // $("p span").text($(this).siblings("textarea").val().length)
+            });
+            $(".main-right-area textarea").keyup(function () {
+                $("p span").text($(this).val().length);
+            });
+
+            //提交
+            $("#check_submit").click(function () {
+                //取数据  打分
+                var mark = $(".main-right-score-choose .activeScore").html();
+                //回复
+                var remark = $(".main-right-area textarea").val();
+                var hwsubid = selected_hwsubid;
+                $.ajax({
+                    url: "./homework_Check",
+                    data: {id: hwsubid, mark: mark, remark: remark},
+                    dataType: "json",
+                    success: function (data) {
+                        $(".main-center-mark").html(mark);
+                        //找到 批阅
+                        $(".main-left-top ul").find(".active").find(".main-left-list-a a").html("已批阅");
+                        layer.msg("批改成功")
+
+                    }
+                })
+            })
+        })
+
+    </script>
+</head>
+<body>
+
+<div class="main">
+    <div class="main-top">作业批阅</div>
+    <div class="main-left">
+        <div class="main-left-top">
+            <div class="main-left-submit">
+                <span>已提交</span>
+                <span>( 37 )</span>
+            </div>
+            <div class="main-left-check">
+                <span>已批阅</span>
+                <span>1人</span>
+            </div>
+            <ul>
+                <li th:each="sub,iterStat:${submits}" th:value="${iterStat.index}">
+                    <div class="main-left-list-text">
+                        <span th:text="${sub.submitman.realname}"></span>
+                    </div>
+                    <div class="main-left-list-a">
+                        <a href="#">批阅</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="main-left-bottom">
+            <button type="button">批量批阅</button>
+        </div>
+
+    </div>
+    <div class="main-center">
+        <div class="main-center-title">
+
+        </div>
+        <div class="main-center-mark">
+
+        </div>
+        <div class="main-center-date">
+
+        </div>
+        <div class="main-center-content">
+        </div>
+    </div>
+    <div class="main-right">
+        <div class="main-right-score">
+            <span>评分</span>
+        </div>
+        <div class="main-right-score-choose">
+            <button type="button" class="score">A+</button>
+            <button type="button" class="score">A</button>
+            <button type="button" class="score">B</button>
+            <button type="button" class="score">C</button>
+            <button type="button" class="score">修正</button>
+        </div>
+        <div class="main-right-area">
+            <textarea cols="29" rows="6" placeholder="请输入评语"></textarea>
+            <p><span>0</span>/100</p>
+            <button>作业完成的很不错</button>
+            <button>优秀,继续保持</button>
+            <button>期待你的进步!</button>
+            <button>进步很大!</button>
+            <button>可以更认真,继续努力!</button>
+            <div class="main-right-submit">
+                <button id="check_submit" type="button">提交</button>
+            </div>
+            <div class="main-right-chooseWork">
+                <button class="prev">&lt; 上一份</button>
+                <button class="next">下一份 &gt;</button>
+            </div>
+        </div>
+        <div class="main-right-footer">
+            <div>快捷键提示</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    function previewImg(obj) {
+        var img = new Image();
+        img.src = obj.src;
+        var imgHtml = "<img src='" + obj.src + "' width='450px' height='450px'/>";
+        //弹出层
+        layer.open({
+            type: 1,
+            shade: 0.8,
+            offset: 'auto',
+            area: [500 + 'px',550+'px'],  // area: [width + 'px',height+'px']  //原图显示
+            shadeClose: true,//点击外围关闭弹窗
+            scrollbar: false,//不现实滚动条
+            title: "图片预览", //不显示标题
+            content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function () {
+                //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });
+            }
+        });
+    }
+</script>

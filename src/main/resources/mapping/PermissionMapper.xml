@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.dfrz.mapper.PermissionMapper">
+    <select id="getPermissionByRoleId" resultType="Permission">
+       select d.id,d.name title,d.pid,d.permissionkey  from  role_permission c LEFT JOIN permission d on c.permissionid=d.id where c.roleid=#{roleid}
+    </select>
+    <select id="getRolePermissionCount" resultType="int">
+select count(*) from role_permission where roleid=#{roleid} and permissionid=#{permissionid}
+    </select>
+</mapper>

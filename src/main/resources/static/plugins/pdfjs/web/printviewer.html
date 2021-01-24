@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script>
+			function printfun(){
+				window.location.href="viewer.html?file=sheet1.pdf";
+			}
+		</script>
+	</head>
+	<body>
+		<div style="margin: 10px;">
+			<button value="预览" onclick="printfun()">打印</button>  
+			左偏移<input type="text"/> 上偏移<input type="text"/>
+		</div>
+		<iframe src="09.pdf" width="800" height="600"></iframe>
+	</body>
+</html>
